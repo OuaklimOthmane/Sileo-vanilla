@@ -325,6 +325,8 @@ class Toast {
 		s.setProperty("--_px", `${px}px`);
 		s.setProperty("--_ht", `translateY(${open ? (this.edge === "bottom" ? 3 : -3) : 0}px) scale(${open ? 0.9 : 1})`);
 		s.setProperty("--_co", open ? "1" : "0");
+		// buttons follow the corners: pills at Sileo's default 16, a matching smaller radius on sharper toasts
+		s.setProperty("--_br", round === DEFAULT_ROUNDNESS ? "9999px" : `${Math.max(4, round - 4)}px`);
 		this.el.dataset.expanded = String(open);
 		this.content.dataset.visible = String(open);
 	}

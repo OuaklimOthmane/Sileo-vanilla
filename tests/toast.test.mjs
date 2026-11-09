@@ -119,6 +119,7 @@ describe("content", () => {
 		const pill = el.querySelector("[data-sileo-pill]");
 		assert.equal(pill.getAttribute("fill"), "#123456");
 		assert.equal(pill.getAttribute("rx"), "12");
+		assert.equal(el.style.getPropertyValue("--_br"), "8px"); // buttons follow the sharper corners
 		assert.equal(el.querySelector("feGaussianBlur").getAttribute("stdDeviation"), "6");
 	});
 });

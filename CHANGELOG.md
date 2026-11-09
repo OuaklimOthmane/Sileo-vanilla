@@ -1,6 +1,11 @@
 # Changelog
 
-## 0.2.0 (2026-11-09)
+## 0.2.1 (2026-11-09)
+
+- Buttons follow `roundness`: pills at the default 16, a matching smaller radius on sharper toasts (12 → 8 px).
+- In a `buttons` row the primary button takes the room left; the others keep their own width.
+
+## 0.2.0 (2026-11-09, not published on npm: use 0.2.1)
 
 - `buttons`: several buttons side by side, with `primary` for the main one (filled with the state colour).
 - `autopilot: { collapse: false }`: once open the toast stays open, even when the mouse leaves (questions, confirmations).

@@ -320,7 +320,7 @@
   height: 1.75rem;
   padding: 0 0.625rem;
   margin-top: 0.75rem;
-  border-radius: 9999px;
+  border-radius: var(--_br, 9999px);
   border: 0;
   font-size: 0.75rem;
   font-weight: 500;
@@ -496,6 +496,11 @@
 
 [data-sileo-actions] [data-sileo-button] {
   margin-top: 0;
+}
+
+/* the main action takes the room left; the others keep their own width */
+[data-sileo-actions] [data-sileo-button][data-variant="primary"] {
+  flex: 1;
 }
 
 [data-sileo-button][data-variant="primary"] {

@@ -32,7 +32,7 @@ No component to mount: the styles are added the first time a toast appears.
 Without a build step:
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/sileo-vanilla@0.2.0/dist/sileo-vanilla.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sileo-vanilla@0.2.1/dist/sileo-vanilla.umd.min.js"></script>
 <script>
   SileoVanilla.toast.success({ title: "Saved" });
 </script>
