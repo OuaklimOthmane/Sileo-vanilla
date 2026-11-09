@@ -168,7 +168,7 @@ class Toast {
 		});
 		el.addEventListener("mouseleave", () => {
 			host.hoverLeave();
-			this.setExpanded(false);
+			if (!this.keepsOpen()) this.setExpanded(false);
 		});
 		el.addEventListener("pointerdown", (e) => this.swipeStart(e));
 		// the text is hidden (content-visibility) until it opens: measure again when its size shows up or changes
@@ -198,7 +198,18 @@ class Toast {
 	}
 
 	hasDesc() {
-		return Boolean(this.view.description) || Boolean(this.view.button);
+		return Boolean(this.view.description) || this.buttons().length > 0;
+	}
+
+	buttons() {
+		const v = this.view;
+		return v.buttons && v.buttons.length ? v.buttons : v.button ? [v.button] : [];
+	}
+
+	/** `autopilot: { collapse: false }`: once open it stays open (a question waiting for an answer). */
+	keepsOpen() {
+		const a = this.view.autopilot;
+		return Boolean(a && typeof a === "object" && a.collapse === false);
 	}
 
 	/** The badge and the title; a new state blurs in over the old one. */
@@ -239,20 +250,28 @@ class Toast {
 		this.desc.className = "";
 		addClass(this.desc, v.styles && v.styles.description);
 		fill(this.desc, v.description);
-		if (v.button) {
+		const list = this.buttons();
+		// one button sits under the text as in Sileo; several go side by side in a row
+		const row = list.length > 1 ? document.createElement("div") : this.desc;
+		if (row !== this.desc) {
+			row.setAttribute("data-sileo-actions", "");
+			this.desc.appendChild(row);
+		}
+		for (const b of list) {
 			const a = document.createElement("a");
 			a.href = "#";
 			a.setAttribute("role", "button");
 			a.setAttribute("data-sileo-button", "");
 			a.dataset.state = v.state;
+			if (b.primary) a.dataset.variant = "primary";
 			addClass(a, v.styles && v.styles.button);
-			a.textContent = v.button.title;
+			a.textContent = b.title;
 			a.addEventListener("click", (e) => {
 				e.preventDefault();
 				e.stopPropagation();
-				if (v.button.onClick) v.button.onClick(e);
+				if (b.onClick) b.onClick(e);
 			});
-			this.desc.appendChild(a);
+			row.appendChild(a);
 		}
 	}
 
@@ -327,10 +346,10 @@ class Toast {
 		const cfg = typeof this.view.autopilot === "object" && this.view.autopilot ? this.view.autopilot : {};
 		const clamp = (v) => Math.min(total, Math.max(0, v));
 		const ex = clamp(cfg.expand != null ? cfg.expand : AUTO_EXPAND_DELAY);
-		const co = clamp(cfg.collapse != null ? cfg.collapse : AUTO_COLLAPSE_DELAY);
+		const co = clamp(cfg.collapse != null && cfg.collapse !== false ? cfg.collapse : AUTO_COLLAPSE_DELAY);
 		if (ex > 0) this.tExpand = setTimeout(() => this.setExpanded(true), ex);
 		else this.setExpanded(true);
-		if (co > 0) this.tCollapse = setTimeout(() => this.setExpanded(false), co);
+		if (cfg.collapse !== false && co > 0) this.tCollapse = setTimeout(() => this.setExpanded(false), co);
 	}
 
 	/** Same id again: fold, then morph the header and the content into the new state. */

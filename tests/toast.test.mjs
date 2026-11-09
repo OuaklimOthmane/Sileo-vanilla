@@ -88,6 +88,28 @@ describe("content", () => {
 		assert.equal(clicked, 1);
 	});
 
+	test("several buttons go in a row; primary is marked", () => {
+		const hit = [];
+		toast.warning({ title: "Delete?", buttons: [{ title: "Cancel", onClick: () => hit.push("c") }, { title: "Delete", primary: true, onClick: () => hit.push("d") }] });
+		const row = toasts()[0].querySelector("[data-sileo-actions]");
+		const [cancel, del] = row.querySelectorAll("[data-sileo-button]");
+		assert.equal(del.dataset.variant, "primary");
+		assert.equal(cancel.dataset.variant, undefined);
+		del.dispatchEvent(new MouseEvent("click", { bubbles: true, cancelable: true }));
+		cancel.dispatchEvent(new MouseEvent("click", { bubbles: true, cancelable: true }));
+		assert.deepEqual(hit, ["d", "c"]);
+	});
+
+	test("autopilot collapse: false keeps it open when the mouse leaves", async () => {
+		toast.warning({ title: "Sure?", description: "x", autopilot: { expand: 0, collapse: false } });
+		const el = toasts()[0];
+		assert.equal(el.dataset.expanded, "true");
+		el.dispatchEvent(new MouseEvent("mouseenter"));
+		el.dispatchEvent(new MouseEvent("mouseleave"));
+		await sleep(50);
+		assert.equal(el.dataset.expanded, "true");
+	});
+
 	test("custom classes, icon, fill and roundness", () => {
 		toast.success({ title: "x", className: "mine", styles: { title: "t1 t2", badge: "bd" }, icon: '<svg class="ic"></svg>', fill: "#123456", roundness: 12 });
 		const el = toasts()[0];

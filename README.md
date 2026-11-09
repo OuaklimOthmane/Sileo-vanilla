@@ -32,7 +32,7 @@ No component to mount: the styles are added the first time a toast appears.
 Without a build step:
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/sileo-vanilla@0.1.0/dist/sileo-vanilla.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sileo-vanilla@0.2.0/dist/sileo-vanilla.umd.min.js"></script>
 <script>
   SileoVanilla.toast.success({ title: "Saved" });
 </script>
@@ -75,13 +75,14 @@ toast.clear();       // close all
 | `title` | state name | Text, a DOM node or `{ html }`, shown in the pill |
 | `description` | none | Text, a DOM node or `{ html }`, unfolds below |
 | `button` | none | `{ title, onClick }` |
+| `buttons` | none | Several buttons in a row: `[{ title, onClick, primary }]` |
 | `duration` | `6000` | ms; `null` keeps it until dismissed |
 | `position` | `"top-right"` | `top-left`, `top-center`, `top-right`, `bottom-left`, `bottom-center`, `bottom-right` |
 | `id` | `"sileo-default"` | Same id = the toast morphs instead of stacking |
 | `icon` | state icon | SVG string or DOM node |
 | `fill` | from theme | Toast colour |
 | `roundness` | `16` | Corner radius (px) |
-| `autopilot` | 150 / 4000 ms | `false`, or `{ expand, collapse }` |
+| `autopilot` | 150 / 4000 ms | `false`, or `{ expand, collapse }`; `collapse: false` keeps it open |
 | `className`, `styles` | none | Your classes: `styles: { title, description, badge, button }` |
 | `onDismiss` | none | `(id) => void` once it has left |
 

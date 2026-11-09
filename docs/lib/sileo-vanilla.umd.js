@@ -28,493 +28,7 @@ var SileoVanilla = (() => {
   });
 
   // src/styles.css
-  var styles_default = `/*!
- * sileo-vanilla styles. Copyright (c) 2026 Ouaklim Othmane, MIT License.
- * Based on Sileo's styles.css (https://github.com/hiaaryan/sileo), Copyright (c) Aaryan (hiaaryan), MIT License.
- */
-
-:root {
-  --sileo-spring-easing: linear(
-    0,
-    0.002 0.6%,
-    0.007 1.2%,
-    0.015 1.8%,
-    0.026 2.4%,
-    0.041 3.1%,
-    0.06 3.8%,
-    0.108 5.3%,
-    0.157 6.6%,
-    0.214 8%,
-    0.467 13.7%,
-    0.577 16.3%,
-    0.631 17.7%,
-    0.682 19.1%,
-    0.73 20.5%,
-    0.771 21.8%,
-    0.808 23.1%,
-    0.844 24.5%,
-    0.874 25.8%,
-    0.903 27.2%,
-    0.928 28.6%,
-    0.952 30.1%,
-    0.972 31.6%,
-    0.988 33.1%,
-    1.01 35.7%,
-    1.025 38.5%,
-    1.034 41.6%,
-    1.038 45%,
-    1.035 50.1%,
-    1.012 64.2%,
-    1.003 73%,
-    0.999 83.7%,
-    1
-  );
-
-  --sileo-duration: 600ms;
-  --sileo-height: 40px;
-  --sileo-width: 350px;
-
-  --sileo-state-success: oklch(0.723 0.219 142.136);
-  --sileo-state-loading: oklch(0.556 0 0);
-  --sileo-state-error: oklch(0.637 0.237 25.331);
-  --sileo-state-warning: oklch(0.795 0.184 86.047);
-  --sileo-state-info: oklch(0.685 0.169 237.323);
-  --sileo-state-action: oklch(0.623 0.214 259.815);
-}
-
-/* ---------------------------------- Toast --------------------------------- */
-
-[data-sileo-toast] {
-  position: relative;
-  cursor: pointer;
-  pointer-events: auto;
-  touch-action: none;
-  border: 0;
-  background: transparent;
-  padding: 0;
-  width: var(--sileo-width);
-  height: var(--_h, var(--sileo-height));
-  opacity: 0;
-  transform: translateZ(0) scale(0.95);
-  transform-origin: center;
-  contain: layout style;
-  overflow: visible;
-}
-
-[data-sileo-toast][data-state="loading"] {
-  cursor: default;
-}
-
-[data-sileo-toast][data-ready="true"] {
-  opacity: 1;
-  transform: translateZ(0) scale(1);
-  transition:
-    transform calc(var(--sileo-duration) * 0.66) var(--sileo-spring-easing),
-    opacity calc(var(--sileo-duration) * 0.66) var(--sileo-spring-easing),
-    margin-bottom calc(var(--sileo-duration) * 0.66) var(--sileo-spring-easing),
-    margin-top calc(var(--sileo-duration) * 0.66) var(--sileo-spring-easing),
-    height var(--sileo-duration) var(--sileo-spring-easing);
-}
-
-/* Entry animation direction */
-[data-sileo-viewport][data-position^="top"] [data-sileo-toast]:not([data-ready="true"]) {
-  transform: translateY(-6px) scale(0.95);
-}
-
-[data-sileo-viewport][data-position^="bottom"] [data-sileo-toast]:not([data-ready="true"]) {
-  transform: translateY(6px) scale(0.95);
-}
-
-/* Exit */
-[data-sileo-toast][data-ready="true"][data-exiting="true"] {
-  opacity: 0;
-  pointer-events: none;
-}
-
-[data-sileo-viewport][data-position^="top"]
-  [data-sileo-toast][data-ready="true"][data-exiting="true"] {
-  transform: translateY(-6px) scale(0.95);
-}
-
-[data-sileo-viewport][data-position^="bottom"]
-  [data-sileo-toast][data-ready="true"][data-exiting="true"] {
-  transform: translateY(6px) scale(0.95);
-}
-
-/* ------------------------------- SVG Canvas ------------------------------- */
-
-[data-sileo-canvas] {
-  position: absolute;
-  left: 0;
-  right: 0;
-  pointer-events: none;
-  transform: translateZ(0);
-  contain: layout style;
-  overflow: visible;
-}
-
-[data-sileo-canvas][data-edge="top"] {
-  bottom: 0;
-  transform: scaleY(-1) translateZ(0);
-}
-
-[data-sileo-canvas][data-edge="bottom"] {
-  top: 0;
-}
-
-[data-sileo-svg] {
-  overflow: visible;
-}
-
-/* --------------------------------- Shapes --------------------------------- */
-
-/* --------------------------------- Header --------------------------------- */
-
-[data-sileo-header] {
-  position: absolute;
-  z-index: 20;
-  display: flex;
-  align-items: center;
-  padding: 0.5rem;
-  height: var(--sileo-height);
-  overflow: hidden;
-  left: var(--_px, 0px);
-  transform: var(--_ht);
-  max-width: var(--_pw);
-}
-
-[data-sileo-toast][data-ready="true"] [data-sileo-header] {
-  transition:
-    transform var(--sileo-duration) var(--sileo-spring-easing),
-    left var(--sileo-duration) var(--sileo-spring-easing),
-    max-width var(--sileo-duration) var(--sileo-spring-easing);
-}
-
-[data-sileo-header][data-edge="top"] {
-  bottom: 0;
-}
-
-[data-sileo-header][data-edge="bottom"] {
-  top: 0;
-}
-
-/* Header inner morphing */
-[data-sileo-header-stack] {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  height: 100%;
-}
-
-[data-sileo-header-inner] {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  white-space: nowrap;
-  opacity: 1;
-  filter: blur(0px);
-  transform: translateZ(0);
-}
-
-[data-sileo-header-inner][data-layer="current"] {
-  position: relative;
-  z-index: 1;
-  animation: sileo-header-enter var(--sileo-duration) var(--sileo-spring-easing) both;
-}
-
-[data-sileo-header-inner][data-layer="current"]:not(:only-child),
-[data-sileo-header-inner][data-exiting="true"] {
-  will-change: opacity, filter;
-}
-
-[data-sileo-header-inner][data-layer="prev"] {
-  position: absolute;
-  left: 0;
-  top: 0;
-  z-index: 0;
-  pointer-events: none;
-}
-
-[data-sileo-header-inner][data-exiting="true"] {
-  animation: sileo-header-exit calc(var(--sileo-duration) * 0.7) ease forwards;
-}
-
-/* ---------------------------------- Badge --------------------------------- */
-
-[data-sileo-badge] {
-  display: flex;
-  height: 24px;
-  width: 24px;
-  flex-shrink: 0;
-  align-items: center;
-  justify-content: center;
-  padding: 2px;
-  box-sizing: border-box;
-  border-radius: 9999px;
-  color: var(--sileo-tone, currentColor);
-  background-color: var(--sileo-tone-bg, transparent);
-}
-
-/* ---------------------------------- Title --------------------------------- */
-
-[data-sileo-title] {
-  font-size: 0.825rem;
-  line-height: 1rem;
-  font-weight: 500;
-  text-transform: capitalize;
-  color: var(--sileo-tone, currentColor);
-}
-
-/* ------------------------------ State Colors ------------------------------ */
-
-:is([data-sileo-badge], [data-sileo-title], [data-sileo-button])[data-state] {
-  --_c: var(--sileo-state-success);
-}
-
-:is([data-sileo-badge], [data-sileo-title], [data-sileo-button])[data-state="loading"] {
-  --_c: var(--sileo-state-loading);
-}
-
-:is([data-sileo-badge], [data-sileo-title], [data-sileo-button])[data-state="error"] {
-  --_c: var(--sileo-state-error);
-}
-
-:is([data-sileo-badge], [data-sileo-title], [data-sileo-button])[data-state="warning"] {
-  --_c: var(--sileo-state-warning);
-}
-
-:is([data-sileo-badge], [data-sileo-title], [data-sileo-button])[data-state="info"] {
-  --_c: var(--sileo-state-info);
-}
-
-:is([data-sileo-badge], [data-sileo-title], [data-sileo-button])[data-state="action"] {
-  --_c: var(--sileo-state-action);
-}
-
-:is([data-sileo-badge], [data-sileo-title])[data-state] {
-  --sileo-tone: var(--_c);
-  --sileo-tone-bg: color-mix(in oklch, var(--_c) 20%, transparent);
-}
-
-/* --------------------------------- Content -------------------------------- */
-
-[data-sileo-content] {
-  position: absolute;
-  left: 0;
-  z-index: 10;
-  width: 100%;
-  pointer-events: none;
-  opacity: var(--_co, 0);
-}
-
-[data-sileo-content]:not([data-visible="true"]) {
-  content-visibility: hidden;
-}
-
-[data-sileo-toast][data-ready="true"] [data-sileo-content] {
-  transition: opacity calc(var(--sileo-duration) * 0.08) ease calc(var(--sileo-duration) * 0.04);
-}
-
-[data-sileo-content][data-edge="top"] {
-  top: 0;
-}
-
-[data-sileo-content][data-edge="bottom"] {
-  top: var(--sileo-height);
-}
-
-[data-sileo-content][data-visible="true"] {
-  pointer-events: auto;
-}
-
-[data-sileo-toast][data-ready="true"] [data-sileo-content][data-visible="true"] {
-  transition: opacity calc(var(--sileo-duration) * 0.6) ease calc(var(--sileo-duration) * 0.3);
-}
-
-[data-sileo-description] {
-  width: 100%;
-  text-align: left;
-  padding: 1rem;
-  font-size: 0.875rem;
-  line-height: 1.25rem;
-  contain: layout style paint;
-  content-visibility: auto;
-}
-
-/* --------------------------------- Button --------------------------------- */
-
-[data-sileo-button] {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 1.75rem;
-  padding: 0 0.625rem;
-  margin-top: 0.75rem;
-  border-radius: 9999px;
-  border: 0;
-  font-size: 0.75rem;
-  font-weight: 500;
-  cursor: pointer;
-  color: var(--sileo-btn-color, currentColor);
-  background-color: var(--sileo-btn-bg, transparent);
-  transition: background-color 150ms ease;
-}
-
-[data-sileo-button]:hover {
-  background-color: var(--sileo-btn-bg-hover, transparent);
-}
-
-[data-sileo-button][data-state] {
-  --sileo-btn-color: var(--_c);
-  --sileo-btn-bg: color-mix(in oklch, var(--_c) 15%, transparent);
-  --sileo-btn-bg-hover: color-mix(in oklch, var(--_c) 25%, transparent);
-}
-
-/* -------------------------------- Animations ------------------------------ */
-
-[data-sileo-icon="spin"] {
-  animation: sileo-spin 1s linear infinite;
-}
-
-@keyframes sileo-spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@keyframes sileo-header-enter {
-  from {
-    opacity: 0;
-    filter: blur(6px);
-  }
-  to {
-    opacity: 1;
-    filter: blur(0px);
-  }
-}
-
-@keyframes sileo-header-exit {
-  from {
-    opacity: 1;
-    filter: blur(0px);
-  }
-  to {
-    opacity: 0;
-    filter: blur(6px);
-  }
-}
-
-/* -------------------------------- Viewports ------------------------------- */
-
-[data-sileo-viewport] {
-  position: fixed;
-  z-index: 50;
-  display: flex;
-  gap: 0.75rem;
-  padding: 0.75rem;
-  pointer-events: none;
-  max-width: calc(100vw - 1.5rem);
-  contain: layout style;
-}
-
-[data-sileo-viewport][data-position^="top"] [data-sileo-toast]:not([data-ready="true"]) {
-  margin-bottom: calc(-1 * (var(--sileo-height) + 0.75rem));
-}
-
-[data-sileo-viewport][data-position^="bottom"] [data-sileo-toast]:not([data-ready="true"]) {
-  margin-top: calc(-1 * (var(--sileo-height) + 0.75rem));
-}
-
-/* Vertical edge */
-[data-sileo-viewport][data-position^="top"] {
-  top: 0;
-  flex-direction: column-reverse;
-}
-
-[data-sileo-viewport][data-position^="bottom"] {
-  bottom: 0;
-  flex-direction: column;
-}
-
-/* Horizontal alignment */
-[data-sileo-viewport][data-position$="left"] {
-  left: 0;
-  align-items: flex-start;
-}
-
-[data-sileo-viewport][data-position$="right"] {
-  right: 0;
-  align-items: flex-end;
-}
-
-[data-sileo-viewport][data-position$="center"] {
-  left: 50%;
-  transform: translateX(-50%);
-  align-items: center;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  [data-sileo-toast][data-ready="true"]:hover,
-  [data-sileo-toast][data-ready="true"][data-exiting="true"] {
-    will-change: transform, opacity, height;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  [data-sileo-viewport],
-  [data-sileo-viewport] *,
-  [data-sileo-viewport] *::before,
-  [data-sileo-viewport] *::after {
-    animation-duration: 0.01ms;
-    animation-iteration-count: 1;
-    transition-duration: 0.01ms;
-  }
-}
-
-/* --------------------------------- Themes -------------------------------- */
-
-[data-sileo-viewport][data-theme="dark"] [data-sileo-description] {
-  color: rgba(0, 0, 0, 0.5);
-}
-
-[data-sileo-viewport][data-theme="light"] [data-sileo-description] {
-  color: rgba(255, 255, 255, 0.5);
-}
-
-/* ---------------------------- Base reset (what Sileo gets from Tailwind's preflight) ---------------------------- */
-
-[data-sileo-viewport],
-[data-sileo-viewport] *,
-[data-sileo-viewport] *::before,
-[data-sileo-viewport] *::after {
-  box-sizing: border-box;
-}
-
-[data-sileo-viewport] {
-  font-family: inherit;
-  -webkit-font-smoothing: antialiased;
-}
-
-[data-sileo-viewport] [data-sileo-button] {
-  text-decoration: none;
-  font-family: inherit;
-}
-
-[data-sileo-viewport] [data-sileo-button]:focus-visible {
-  outline: 2px solid var(--_c);
-  outline-offset: 2px;
-}
-
-[data-sileo-viewport] svg {
-  display: block;
-}
-
-[data-sileo-badge] > svg,
-[data-sileo-badge] > img {
-  max-width: 100%;
-  max-height: 100%;
-}
-`;
+  var styles_default = '/*!\n * sileo-vanilla styles. Copyright (c) 2026 Ouaklim Othmane, MIT License.\n * Based on Sileo\'s styles.css (https://github.com/hiaaryan/sileo), Copyright (c) Aaryan (hiaaryan), MIT License.\n */\n\n:root {\n  --sileo-spring-easing: linear(\n    0,\n    0.002 0.6%,\n    0.007 1.2%,\n    0.015 1.8%,\n    0.026 2.4%,\n    0.041 3.1%,\n    0.06 3.8%,\n    0.108 5.3%,\n    0.157 6.6%,\n    0.214 8%,\n    0.467 13.7%,\n    0.577 16.3%,\n    0.631 17.7%,\n    0.682 19.1%,\n    0.73 20.5%,\n    0.771 21.8%,\n    0.808 23.1%,\n    0.844 24.5%,\n    0.874 25.8%,\n    0.903 27.2%,\n    0.928 28.6%,\n    0.952 30.1%,\n    0.972 31.6%,\n    0.988 33.1%,\n    1.01 35.7%,\n    1.025 38.5%,\n    1.034 41.6%,\n    1.038 45%,\n    1.035 50.1%,\n    1.012 64.2%,\n    1.003 73%,\n    0.999 83.7%,\n    1\n  );\n\n  --sileo-duration: 600ms;\n  --sileo-height: 40px;\n  --sileo-width: 350px;\n\n  --sileo-state-success: oklch(0.723 0.219 142.136);\n  --sileo-state-loading: oklch(0.556 0 0);\n  --sileo-state-error: oklch(0.637 0.237 25.331);\n  --sileo-state-warning: oklch(0.795 0.184 86.047);\n  --sileo-state-info: oklch(0.685 0.169 237.323);\n  --sileo-state-action: oklch(0.623 0.214 259.815);\n}\n\n/* ---------------------------------- Toast --------------------------------- */\n\n[data-sileo-toast] {\n  position: relative;\n  cursor: pointer;\n  pointer-events: auto;\n  touch-action: none;\n  border: 0;\n  background: transparent;\n  padding: 0;\n  width: var(--sileo-width);\n  height: var(--_h, var(--sileo-height));\n  opacity: 0;\n  transform: translateZ(0) scale(0.95);\n  transform-origin: center;\n  contain: layout style;\n  overflow: visible;\n}\n\n[data-sileo-toast][data-state="loading"] {\n  cursor: default;\n}\n\n[data-sileo-toast][data-ready="true"] {\n  opacity: 1;\n  transform: translateZ(0) scale(1);\n  transition:\n    transform calc(var(--sileo-duration) * 0.66) var(--sileo-spring-easing),\n    opacity calc(var(--sileo-duration) * 0.66) var(--sileo-spring-easing),\n    margin-bottom calc(var(--sileo-duration) * 0.66) var(--sileo-spring-easing),\n    margin-top calc(var(--sileo-duration) * 0.66) var(--sileo-spring-easing),\n    height var(--sileo-duration) var(--sileo-spring-easing);\n}\n\n/* Entry animation direction */\n[data-sileo-viewport][data-position^="top"] [data-sileo-toast]:not([data-ready="true"]) {\n  transform: translateY(-6px) scale(0.95);\n}\n\n[data-sileo-viewport][data-position^="bottom"] [data-sileo-toast]:not([data-ready="true"]) {\n  transform: translateY(6px) scale(0.95);\n}\n\n/* Exit */\n[data-sileo-toast][data-ready="true"][data-exiting="true"] {\n  opacity: 0;\n  pointer-events: none;\n}\n\n[data-sileo-viewport][data-position^="top"]\n  [data-sileo-toast][data-ready="true"][data-exiting="true"] {\n  transform: translateY(-6px) scale(0.95);\n}\n\n[data-sileo-viewport][data-position^="bottom"]\n  [data-sileo-toast][data-ready="true"][data-exiting="true"] {\n  transform: translateY(6px) scale(0.95);\n}\n\n/* ------------------------------- SVG Canvas ------------------------------- */\n\n[data-sileo-canvas] {\n  position: absolute;\n  left: 0;\n  right: 0;\n  pointer-events: none;\n  transform: translateZ(0);\n  contain: layout style;\n  overflow: visible;\n}\n\n[data-sileo-canvas][data-edge="top"] {\n  bottom: 0;\n  transform: scaleY(-1) translateZ(0);\n}\n\n[data-sileo-canvas][data-edge="bottom"] {\n  top: 0;\n}\n\n[data-sileo-svg] {\n  overflow: visible;\n}\n\n/* --------------------------------- Shapes --------------------------------- */\n\n/* --------------------------------- Header --------------------------------- */\n\n[data-sileo-header] {\n  position: absolute;\n  z-index: 20;\n  display: flex;\n  align-items: center;\n  padding: 0.5rem;\n  height: var(--sileo-height);\n  overflow: hidden;\n  left: var(--_px, 0px);\n  transform: var(--_ht);\n  max-width: var(--_pw);\n}\n\n[data-sileo-toast][data-ready="true"] [data-sileo-header] {\n  transition:\n    transform var(--sileo-duration) var(--sileo-spring-easing),\n    left var(--sileo-duration) var(--sileo-spring-easing),\n    max-width var(--sileo-duration) var(--sileo-spring-easing);\n}\n\n[data-sileo-header][data-edge="top"] {\n  bottom: 0;\n}\n\n[data-sileo-header][data-edge="bottom"] {\n  top: 0;\n}\n\n/* Header inner morphing */\n[data-sileo-header-stack] {\n  position: relative;\n  display: inline-flex;\n  align-items: center;\n  height: 100%;\n}\n\n[data-sileo-header-inner] {\n  display: flex;\n  align-items: center;\n  gap: 0.5rem;\n  white-space: nowrap;\n  opacity: 1;\n  filter: blur(0px);\n  transform: translateZ(0);\n}\n\n[data-sileo-header-inner][data-layer="current"] {\n  position: relative;\n  z-index: 1;\n  animation: sileo-header-enter var(--sileo-duration) var(--sileo-spring-easing) both;\n}\n\n[data-sileo-header-inner][data-layer="current"]:not(:only-child),\n[data-sileo-header-inner][data-exiting="true"] {\n  will-change: opacity, filter;\n}\n\n[data-sileo-header-inner][data-layer="prev"] {\n  position: absolute;\n  left: 0;\n  top: 0;\n  z-index: 0;\n  pointer-events: none;\n}\n\n[data-sileo-header-inner][data-exiting="true"] {\n  animation: sileo-header-exit calc(var(--sileo-duration) * 0.7) ease forwards;\n}\n\n/* ---------------------------------- Badge --------------------------------- */\n\n[data-sileo-badge] {\n  display: flex;\n  height: 24px;\n  width: 24px;\n  flex-shrink: 0;\n  align-items: center;\n  justify-content: center;\n  padding: 2px;\n  box-sizing: border-box;\n  border-radius: 9999px;\n  color: var(--sileo-tone, currentColor);\n  background-color: var(--sileo-tone-bg, transparent);\n}\n\n/* ---------------------------------- Title --------------------------------- */\n\n[data-sileo-title] {\n  font-size: 0.825rem;\n  line-height: 1rem;\n  font-weight: 500;\n  text-transform: capitalize;\n  color: var(--sileo-tone, currentColor);\n}\n\n/* ------------------------------ State Colors ------------------------------ */\n\n:is([data-sileo-badge], [data-sileo-title], [data-sileo-button])[data-state] {\n  --_c: var(--sileo-state-success);\n}\n\n:is([data-sileo-badge], [data-sileo-title], [data-sileo-button])[data-state="loading"] {\n  --_c: var(--sileo-state-loading);\n}\n\n:is([data-sileo-badge], [data-sileo-title], [data-sileo-button])[data-state="error"] {\n  --_c: var(--sileo-state-error);\n}\n\n:is([data-sileo-badge], [data-sileo-title], [data-sileo-button])[data-state="warning"] {\n  --_c: var(--sileo-state-warning);\n}\n\n:is([data-sileo-badge], [data-sileo-title], [data-sileo-button])[data-state="info"] {\n  --_c: var(--sileo-state-info);\n}\n\n:is([data-sileo-badge], [data-sileo-title], [data-sileo-button])[data-state="action"] {\n  --_c: var(--sileo-state-action);\n}\n\n:is([data-sileo-badge], [data-sileo-title])[data-state] {\n  --sileo-tone: var(--_c);\n  --sileo-tone-bg: color-mix(in oklch, var(--_c) 20%, transparent);\n}\n\n/* --------------------------------- Content -------------------------------- */\n\n[data-sileo-content] {\n  position: absolute;\n  left: 0;\n  z-index: 10;\n  width: 100%;\n  pointer-events: none;\n  opacity: var(--_co, 0);\n}\n\n[data-sileo-content]:not([data-visible="true"]) {\n  content-visibility: hidden;\n}\n\n[data-sileo-toast][data-ready="true"] [data-sileo-content] {\n  transition: opacity calc(var(--sileo-duration) * 0.08) ease calc(var(--sileo-duration) * 0.04);\n}\n\n[data-sileo-content][data-edge="top"] {\n  top: 0;\n}\n\n[data-sileo-content][data-edge="bottom"] {\n  top: var(--sileo-height);\n}\n\n[data-sileo-content][data-visible="true"] {\n  pointer-events: auto;\n}\n\n[data-sileo-toast][data-ready="true"] [data-sileo-content][data-visible="true"] {\n  transition: opacity calc(var(--sileo-duration) * 0.6) ease calc(var(--sileo-duration) * 0.3);\n}\n\n[data-sileo-description] {\n  width: 100%;\n  text-align: left;\n  padding: 1rem;\n  font-size: 0.875rem;\n  line-height: 1.25rem;\n  contain: layout style paint;\n  content-visibility: auto;\n}\n\n/* --------------------------------- Button --------------------------------- */\n\n[data-sileo-button] {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  height: 1.75rem;\n  padding: 0 0.625rem;\n  margin-top: 0.75rem;\n  border-radius: 9999px;\n  border: 0;\n  font-size: 0.75rem;\n  font-weight: 500;\n  cursor: pointer;\n  color: var(--sileo-btn-color, currentColor);\n  background-color: var(--sileo-btn-bg, transparent);\n  transition: background-color 150ms ease;\n}\n\n[data-sileo-button]:hover {\n  background-color: var(--sileo-btn-bg-hover, transparent);\n}\n\n[data-sileo-button][data-state] {\n  --sileo-btn-color: var(--_c);\n  --sileo-btn-bg: color-mix(in oklch, var(--_c) 15%, transparent);\n  --sileo-btn-bg-hover: color-mix(in oklch, var(--_c) 25%, transparent);\n}\n\n/* -------------------------------- Animations ------------------------------ */\n\n[data-sileo-icon="spin"] {\n  animation: sileo-spin 1s linear infinite;\n}\n\n@keyframes sileo-spin {\n  to {\n    transform: rotate(360deg);\n  }\n}\n\n@keyframes sileo-header-enter {\n  from {\n    opacity: 0;\n    filter: blur(6px);\n  }\n  to {\n    opacity: 1;\n    filter: blur(0px);\n  }\n}\n\n@keyframes sileo-header-exit {\n  from {\n    opacity: 1;\n    filter: blur(0px);\n  }\n  to {\n    opacity: 0;\n    filter: blur(6px);\n  }\n}\n\n/* -------------------------------- Viewports ------------------------------- */\n\n[data-sileo-viewport] {\n  position: fixed;\n  z-index: 50;\n  display: flex;\n  gap: 0.75rem;\n  padding: 0.75rem;\n  pointer-events: none;\n  max-width: calc(100vw - 1.5rem);\n  contain: layout style;\n}\n\n[data-sileo-viewport][data-position^="top"] [data-sileo-toast]:not([data-ready="true"]) {\n  margin-bottom: calc(-1 * (var(--sileo-height) + 0.75rem));\n}\n\n[data-sileo-viewport][data-position^="bottom"] [data-sileo-toast]:not([data-ready="true"]) {\n  margin-top: calc(-1 * (var(--sileo-height) + 0.75rem));\n}\n\n/* Vertical edge */\n[data-sileo-viewport][data-position^="top"] {\n  top: 0;\n  flex-direction: column-reverse;\n}\n\n[data-sileo-viewport][data-position^="bottom"] {\n  bottom: 0;\n  flex-direction: column;\n}\n\n/* Horizontal alignment */\n[data-sileo-viewport][data-position$="left"] {\n  left: 0;\n  align-items: flex-start;\n}\n\n[data-sileo-viewport][data-position$="right"] {\n  right: 0;\n  align-items: flex-end;\n}\n\n[data-sileo-viewport][data-position$="center"] {\n  left: 50%;\n  transform: translateX(-50%);\n  align-items: center;\n}\n\n@media (prefers-reduced-motion: no-preference) {\n  [data-sileo-toast][data-ready="true"]:hover,\n  [data-sileo-toast][data-ready="true"][data-exiting="true"] {\n    will-change: transform, opacity, height;\n  }\n}\n\n@media (prefers-reduced-motion: reduce) {\n  [data-sileo-viewport],\n  [data-sileo-viewport] *,\n  [data-sileo-viewport] *::before,\n  [data-sileo-viewport] *::after {\n    animation-duration: 0.01ms;\n    animation-iteration-count: 1;\n    transition-duration: 0.01ms;\n  }\n}\n\n/* --------------------------------- Themes -------------------------------- */\n\n[data-sileo-viewport][data-theme="dark"] [data-sileo-description] {\n  color: rgba(0, 0, 0, 0.5);\n}\n\n[data-sileo-viewport][data-theme="light"] [data-sileo-description] {\n  color: rgba(255, 255, 255, 0.5);\n}\n\n/* ---------------------------- Base reset (what Sileo gets from Tailwind\'s preflight) ---------------------------- */\n\n[data-sileo-viewport],\n[data-sileo-viewport] *,\n[data-sileo-viewport] *::before,\n[data-sileo-viewport] *::after {\n  box-sizing: border-box;\n}\n\n[data-sileo-viewport] {\n  font-family: inherit;\n  -webkit-font-smoothing: antialiased;\n}\n\n[data-sileo-viewport] [data-sileo-button] {\n  text-decoration: none;\n  font-family: inherit;\n}\n\n[data-sileo-viewport] [data-sileo-button]:focus-visible {\n  outline: 2px solid var(--_c);\n  outline-offset: 2px;\n}\n\n[data-sileo-viewport] svg {\n  display: block;\n}\n\n[data-sileo-badge] > svg,\n[data-sileo-badge] > img {\n  max-width: 100%;\n  max-height: 100%;\n}\n\n/* ------------------------------------ Several buttons (sileo-vanilla: `buttons`) ------------------------------------ */\n\n[data-sileo-actions] {\n  display: flex;\n  justify-content: flex-end;\n  gap: 0.5rem;\n  margin-top: 0.75rem;\n}\n\n[data-sileo-actions] [data-sileo-button] {\n  margin-top: 0;\n}\n\n[data-sileo-button][data-variant="primary"] {\n  background-color: var(--_c);\n  color: #ffffff;\n}\n\n[data-sileo-button][data-variant="primary"]:hover {\n  background-color: color-mix(in oklch, var(--_c) 85%, black);\n}\n\n[data-sileo-button][data-variant="primary"][data-state="warning"] {\n  color: #1a1a1a;\n}\n';
 
   // src/index.js
   var HEIGHT = 40;
@@ -661,7 +175,7 @@ var SileoVanilla = (() => {
       });
       el.addEventListener("mouseleave", () => {
         host.hoverLeave();
-        this.setExpanded(false);
+        if (!this.keepsOpen()) this.setExpanded(false);
       });
       el.addEventListener("pointerdown", (e) => this.swipeStart(e));
       if (typeof ResizeObserver !== "undefined") {
@@ -688,7 +202,16 @@ var SileoVanilla = (() => {
       this.autopilot();
     }
     hasDesc() {
-      return Boolean(this.view.description) || Boolean(this.view.button);
+      return Boolean(this.view.description) || this.buttons().length > 0;
+    }
+    buttons() {
+      const v = this.view;
+      return v.buttons && v.buttons.length ? v.buttons : v.button ? [v.button] : [];
+    }
+    /** `autopilot: { collapse: false }`: once open it stays open (a question waiting for an answer). */
+    keepsOpen() {
+      const a = this.view.autopilot;
+      return Boolean(a && typeof a === "object" && a.collapse === false);
     }
     /** The badge and the title; a new state blurs in over the old one. */
     renderHeader(first) {
@@ -727,20 +250,27 @@ var SileoVanilla = (() => {
       this.desc.className = "";
       addClass(this.desc, v.styles && v.styles.description);
       fill(this.desc, v.description);
-      if (v.button) {
+      const list = this.buttons();
+      const row = list.length > 1 ? document.createElement("div") : this.desc;
+      if (row !== this.desc) {
+        row.setAttribute("data-sileo-actions", "");
+        this.desc.appendChild(row);
+      }
+      for (const b of list) {
         const a = document.createElement("a");
         a.href = "#";
         a.setAttribute("role", "button");
         a.setAttribute("data-sileo-button", "");
         a.dataset.state = v.state;
+        if (b.primary) a.dataset.variant = "primary";
         addClass(a, v.styles && v.styles.button);
-        a.textContent = v.button.title;
+        a.textContent = b.title;
         a.addEventListener("click", (e) => {
           e.preventDefault();
           e.stopPropagation();
-          if (v.button.onClick) v.button.onClick(e);
+          if (b.onClick) b.onClick(e);
         });
-        this.desc.appendChild(a);
+        row.appendChild(a);
       }
     }
     measure() {
@@ -806,10 +336,10 @@ var SileoVanilla = (() => {
       const cfg = typeof this.view.autopilot === "object" && this.view.autopilot ? this.view.autopilot : {};
       const clamp = (v) => Math.min(total, Math.max(0, v));
       const ex = clamp(cfg.expand != null ? cfg.expand : AUTO_EXPAND_DELAY);
-      const co = clamp(cfg.collapse != null ? cfg.collapse : AUTO_COLLAPSE_DELAY);
+      const co = clamp(cfg.collapse != null && cfg.collapse !== false ? cfg.collapse : AUTO_COLLAPSE_DELAY);
       if (ex > 0) this.tExpand = setTimeout(() => this.setExpanded(true), ex);
       else this.setExpanded(true);
-      if (co > 0) this.tCollapse = setTimeout(() => this.setExpanded(false), co);
+      if (cfg.collapse !== false && co > 0) this.tCollapse = setTimeout(() => this.setExpanded(false), co);
     }
     /** Same id again: fold, then morph the header and the content into the new state. */
     refresh(item) {

@@ -484,3 +484,29 @@
   max-width: 100%;
   max-height: 100%;
 }
+
+/* ------------------------------------ Several buttons (sileo-vanilla: `buttons`) ------------------------------------ */
+
+[data-sileo-actions] {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+[data-sileo-actions] [data-sileo-button] {
+  margin-top: 0;
+}
+
+[data-sileo-button][data-variant="primary"] {
+  background-color: var(--_c);
+  color: #ffffff;
+}
+
+[data-sileo-button][data-variant="primary"]:hover {
+  background-color: color-mix(in oklch, var(--_c) 85%, black);
+}
+
+[data-sileo-button][data-variant="primary"][data-state="warning"] {
+  color: #1a1a1a;
+}

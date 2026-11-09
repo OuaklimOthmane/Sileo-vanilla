@@ -10,6 +10,8 @@ export type ToastContent = string | Node | { html: string };
 export interface ToastButton {
 	title: string;
 	onClick?: (event: MouseEvent) => void;
+	/** Filled with the state colour (in a `buttons` row). */
+	primary?: boolean;
 }
 
 export interface ToastStyles {
@@ -32,6 +34,8 @@ export interface ToastOptions {
 	description?: ToastContent;
 	/** Action button inside the unfolded card. */
 	button?: ToastButton;
+	/** Several buttons side by side (e.g. "Cancel" and a primary "Delete"). Takes over `button`. */
+	buttons?: ToastButton[];
 	/** Milliseconds before the toast leaves (default 6000). `null` keeps it until dismissed. */
 	duration?: number | null;
 	position?: ToastPosition;
@@ -41,8 +45,9 @@ export interface ToastOptions {
 	fill?: string;
 	/** Corner radius in px (default 16). Higher values make the gooey blur more expensive. */
 	roundness?: number;
-	/** Unfold and fold timings in ms, or `false` to unfold only on hover. */
-	autopilot?: false | { expand?: number; collapse?: number };
+	/** Unfold and fold timings in ms, or `false` to unfold only on hover. `collapse: false` keeps it open once
+	 * unfolded, even when the mouse leaves (for a question waiting for an answer). */
+	autopilot?: false | { expand?: number; collapse?: number | false };
 	/** Extra class on the toast element. */
 	className?: string;
 	styles?: ToastStyles;

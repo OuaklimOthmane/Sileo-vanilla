@@ -63,14 +63,14 @@ toast.success({ title: "Saved" });</pre><button class="icon-btn copy" data-copy 
 			<p>That's all: there is no component to mount. The styles are added to the page the first time a toast appears.</p>
 
 			<h3>With a script tag (no build step)</h3>
-			<div class="copy-wrap"><pre>&lt;script src="https://cdn.jsdelivr.net/npm/sileo-vanilla@0.1.0/dist/sileo-vanilla.umd.min.js"&gt;&lt;/script&gt;
+			<div class="copy-wrap"><pre>&lt;script src="https://cdn.jsdelivr.net/npm/sileo-vanilla@0.2.0/dist/sileo-vanilla.umd.min.js"&gt;&lt;/script&gt;
 &lt;script&gt;
   SileoVanilla.toast.success({ title: "Saved" });
 &lt;/script&gt;</pre><button class="icon-btn copy" data-copy aria-label="Copy">⧉</button></div>
 
 			<h3>As an ES module from a CDN</h3>
 			<div class="copy-wrap"><pre>&lt;script type="module"&gt;
-  import { toast } from "https://cdn.jsdelivr.net/npm/sileo-vanilla@0.1.0/+esm";
+  import { toast } from "https://cdn.jsdelivr.net/npm/sileo-vanilla@0.2.0/+esm";
   toast.info({ title: "Hello" });
 &lt;/script&gt;</pre><button class="icon-btn copy" data-copy aria-label="Copy">⧉</button></div>
 
@@ -99,6 +99,24 @@ toast.info({ title: "New version", description: "Reload the page to get the late
   title: "File uploaded",
   description: "Your file has been uploaded. Share it with your team?",
   button: { title: "Share now", onClick: () =&gt; share() },
+});</pre>
+			</div>
+
+			<h3>Several buttons, and questions</h3>
+			<p>Give <code>buttons</code> instead of <code>button</code> to put several side by side; <code>primary</code> fills one with the state colour. With <code>autopilot: { expand: 0, collapse: false }</code> the toast opens at once and stays open, even when the mouse leaves: handy for a question that waits for an answer.</p>
+			<div class="example">
+				<div class="tabs"><button class="on" data-tab="preview">Preview</button><button data-tab="code">Code</button></div>
+				<div class="pane"><button class="chip" data-demo="ask">Ask a question</button></div>
+				<pre hidden>const id = toast.warning({
+  id: "confirm",
+  title: "Delete this file?",
+  description: "It will be gone for everyone.",
+  duration: 60000,
+  autopilot: { expand: 0, collapse: false },
+  buttons: [
+    { title: "Cancel", onClick: () =&gt; toast.dismiss("confirm") },
+    { title: "Delete", primary: true, onClick: () =&gt; { toast.dismiss("confirm"); remove(); } },
+  ],
 });</pre>
 			</div>
 
@@ -155,13 +173,14 @@ toast.success({ title: "Saved", position: "top-left" }); // or one toast only</p
 				<tr><td><code>title</code></td><td>text, node, <code>{html}</code></td><td>state name</td><td>Shown in the pill.</td></tr>
 				<tr><td><code>description</code></td><td>text, node, <code>{html}</code></td><td>none</td><td>Unfolds below the pill.</td></tr>
 				<tr><td><code>button</code></td><td><code>{ title, onClick }</code></td><td>none</td><td>Action button in the card.</td></tr>
+				<tr><td><code>buttons</code></td><td><code>[{ title, onClick, primary }]</code></td><td>none</td><td>Several buttons side by side.</td></tr>
 				<tr><td><code>duration</code></td><td>ms or <code>null</code></td><td><code>6000</code></td><td><code>null</code> keeps it until dismissed.</td></tr>
 				<tr><td><code>position</code></td><td>position</td><td>toaster's</td><td>One of the six positions.</td></tr>
 				<tr><td><code>id</code></td><td>string</td><td><code>"sileo-default"</code></td><td>Same id = replace with a morph. See <a href="#ids">Ids</a>.</td></tr>
 				<tr><td><code>icon</code></td><td>SVG string or node</td><td>state icon</td><td>Your own badge icon.</td></tr>
 				<tr><td><code>fill</code></td><td>colour</td><td>from theme</td><td>Toast colour.</td></tr>
 				<tr><td><code>roundness</code></td><td>px</td><td><code>16</code></td><td>Corner radius.</td></tr>
-				<tr><td><code>autopilot</code></td><td><code>false</code> or <code>{expand, collapse}</code></td><td>150 / 4000 ms</td><td>When it unfolds and folds by itself.</td></tr>
+				<tr><td><code>autopilot</code></td><td><code>false</code> or <code>{expand, collapse}</code></td><td>150 / 4000 ms</td><td>When it unfolds and folds by itself. <code>collapse: false</code> keeps it open.</td></tr>
 				<tr><td><code>className</code></td><td>string</td><td>none</td><td>Class on the toast element.</td></tr>
 				<tr><td><code>styles</code></td><td><code>{title, description, badge, button}</code></td><td>none</td><td>Classes for each part.</td></tr>
 				<tr><td><code>onDismiss</code></td><td><code>(id) =&gt; void</code></td><td>none</td><td>Called once it has left.</td></tr>
@@ -350,6 +369,18 @@ frappe.show_alert = (m, seconds = 7) =&gt; {
 			error: () => toast.error({ title: "Something went wrong", description: "We could not save your changes. Try again in a moment." }),
 			warning: () => toast.warning({ title: "Storage almost full", description: "You have used 95% of your storage." }),
 			info: () => toast.info({ title: "New version", description: "Reload the page to get the latest features." }),
+			ask: () =>
+				toast.warning({
+					id: "confirm",
+					title: "Delete this file?",
+					description: "It will be gone for everyone.",
+					duration: 60000,
+					autopilot: { expand: 0, collapse: false },
+					buttons: [
+						{ title: "Cancel", onClick: () => toast.dismiss("confirm") },
+						{ title: "Delete", primary: true, onClick: () => toast.success({ id: "confirm", title: "File deleted" }) },
+					],
+				}),
 			action: () => toast.action({ title: "File uploaded", description: "Your file has been uploaded. Share it with your team?", button: { title: "Share now", onClick: () => toast.success({ title: "Link copied" }) } }),
 			promiseOk: () => toast.promise(wait(1800), { loading: { title: "Saving" }, success: (r) => ({ title: "Saved", description: `${r.count} settings updated.` }), error: (e) => ({ title: "Not saved", description: e.message }) }),
 			promiseFail: () => toast.promise(wait(1800, false), { loading: { title: "Saving" }, success: { title: "Saved" }, error: (e) => ({ title: "Not saved", description: e.message }) }).catch(() => {}),
