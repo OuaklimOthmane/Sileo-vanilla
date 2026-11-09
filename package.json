@@ -1,6 +1,6 @@
 {
   "name": "sileo-vanilla",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Gooey, physics-based toast notifications for any web page. A framework-free port of Sileo: no React, no dependencies.",
   "keywords": [
     "toast",
