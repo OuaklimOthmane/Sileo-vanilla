@@ -1,4 +1,4 @@
-/*! sileo-vanilla v0.2.0 | MIT | (c) Ouaklim Othmane | port of Sileo (c) Aaryan, MIT */
+/*! sileo-vanilla v0.2.1 | MIT | (c) Ouaklim Othmane | port of Sileo (c) Aaryan, MIT */
 var SileoVanilla = (() => {
   var __defProp = Object.defineProperty;
   var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
