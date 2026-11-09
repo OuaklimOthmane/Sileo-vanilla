@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>sileo-vanilla</title>
+	<meta name="description" content="Gooey, physics-based toast notifications for any web page. A framework-free port of Sileo: no React, no dependencies.">
+	<meta property="og:title" content="sileo-vanilla">
+	<meta property="og:description" content="Gooey, physics-based toasts for any web page. No framework needed.">
+	<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%23111'/%3E%3Ccircle cx='16' cy='16' r='6' fill='%23fff'/%3E%3C/svg%3E">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+	<header class="top">
+		<a class="brand" href="./"><span class="mark"></span>sileo-vanilla</a>
+		<nav class="nav">
+			<a class="hide-sm" href="https://github.com/OuaklimOthmane/Sileo-vanilla">GitHub</a>
+			<a class="hide-sm" href="https://www.npmjs.com/package/sileo-vanilla">npm</a>
+			<a href="docs.html">Docs</a>
+			<a href="play.html">Playground</a>
+			<button class="icon-btn" data-theme-toggle aria-label="Switch light or dark">
+				<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+			</button>
+		</nav>
+	</header>
+
+	<main>
+		<section class="hero">
+			<div>
+				<h1>sileo<span class="dot">.</span><br>vanilla</h1>
+				<p>Gooey, physics-based toasts for any web page.<br>No React, no dependencies, about 8 kB.</p>
+				<div class="install">
+					<code><span class="dollar">$</span> npm install sileo-vanilla</code>
+					<button class="icon-btn" data-copy="npm install sileo-vanilla" aria-label="Copy the install command">
+						<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+					</button>
+				</div>
+				<div class="links">
+					<a class="main" href="docs.html">Documentation →</a>
+					<a href="play.html">Playground</a>
+				</div>
+			</div>
+			<div class="stage" aria-label="Live example">
+				<div class="dots"><i></i><i></i><i></i></div>
+				<div class="hint">Toasts play here on their own. Hover one to keep it open.</div>
+			</div>
+		</section>
+
+		<section class="features">
+			<div class="feature"><b>Any stack</b><span>Plain HTML, Vue, Svelte, Angular, Frappe, server pages… one function call.</span></div>
+			<div class="feature"><b>Sileo's look, exactly</b><span>The same gooey morph, spring, sizes and timings as the React original.</span></div>
+			<div class="feature"><b>Promise toasts</b><span>One toast from "Saving…" to "Saved" or "Failed", with a smooth swap.</span></div>
+			<div class="feature"><b>Small and safe</b><span>No dependencies, styles injected for you, text never parsed as HTML.</span></div>
+		</section>
+	</main>
+
+	<footer><span>sileo-vanilla · MIT · by Ouaklim Othmane · port of <a href="https://github.com/hiaaryan/sileo">Sileo</a> by Aaryan</span><a href="docs.html">Docs →</a></footer>
+
+	<script src="lib/sileo-vanilla.umd.js"></script>
+	<script src="assets/site.js"></script>
+	<script>
+		// a small show in the stage: the toasts use a viewport placed inside it
+		const { toast, configure } = SileoVanilla;
+		const stage = document.querySelector(".stage");
+		configure({ position: "top-center" });
+		const place = () => {
+			const b = stage.getBoundingClientRect();
+			document.querySelectorAll('[data-sileo-viewport][data-position="top-center"]').forEach((v) => {
+				v.style.left = `${b.left + b.width / 2}px`;
+				v.style.top = `${b.top + 36}px`;
+			});
+		};
+		const faces = ["AL", "BO", "CH"].map((t, i) => `<i style="background:${["#d9f2e4", "#e8e8e8", "#dcd8f6"][i]}">${t}</i>`).join("");
+		const show = [
+			() => toast.promise(new Promise((ok) => setTimeout(ok, 1800)), {
+				loading: { title: "Saving changes" },
+				success: { title: "Changes saved", description: "Everything is stored. You can close this page safely." },
+			}),
+			() => toast.info({ title: "Team update", description: { html: `<div class="who"><span class="faces">${faces}</span><span>Alice, Bob and Charlie joined the design team.</span></div>` } }),
+			() => toast.action({ title: "File uploaded", description: "Your report is ready. Share it with your team?", button: { title: "Share now", onClick: () => toast.success({ title: "Link copied" }) } }),
+			() => toast.warning({ title: "Storage almost full", description: "You have used 95% of your space. Free some files to keep uploading." }),
+			() => toast.error({ title: "Something went wrong", description: "We could not reach the server. Try again in a moment." }),
+		];
+		let i = 0;
+		const next = () => {
+			if (!document.querySelector('[data-sileo-toast]:hover')) {
+				show[i++ % show.length]();
+				place();
+			}
+			setTimeout(next, 6500);
+		};
+		window.addEventListener("resize", place);
+		window.addEventListener("scroll", place, { passive: true });
+		setTimeout(next, 500);
+	</script>
+</body>
+</html>

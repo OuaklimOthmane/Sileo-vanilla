@@ -1,0 +1,382 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Docs · sileo-vanilla</title>
+	<meta name="description" content="Install, fire, style and configure sileo-vanilla toasts in any web project.">
+	<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%23111'/%3E%3Ccircle cx='16' cy='16' r='6' fill='%23fff'/%3E%3C/svg%3E">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+	<header class="top">
+		<a class="brand" href="./"><span class="mark"></span>sileo-vanilla</a>
+		<nav class="nav">
+			<a class="hide-sm" href="https://github.com/OuaklimOthmane/Sileo-vanilla">GitHub</a>
+			<a class="hide-sm" href="https://www.npmjs.com/package/sileo-vanilla">npm</a>
+			<a class="on" href="docs.html">Docs</a>
+			<a href="play.html">Playground</a>
+			<button class="icon-btn" data-theme-toggle aria-label="Switch light or dark">
+				<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+			</button>
+		</nav>
+	</header>
+
+	<div class="docs">
+		<nav class="side" aria-label="Sections">
+			<h4>Basics</h4>
+			<a href="#start">Getting started</a>
+			<a href="#install">Installation</a>
+			<a href="#fire">Fire a toast</a>
+			<a href="#action">Action toast</a>
+			<a href="#promise">Promise toast</a>
+			<a href="#positions">Positions</a>
+			<h4>API</h4>
+			<a href="#api-toast">toast</a>
+			<a href="#api-options">Toast options</a>
+			<a href="#api-configure">configure</a>
+			<h4>Guides</h4>
+			<a href="#styling">Styling</a>
+			<a href="#rich">Rich content</a>
+			<a href="#roundness">Roundness</a>
+			<a href="#themes">Themes</a>
+			<a href="#timing">Timing and autopilot</a>
+			<a href="#ids">Ids and updates</a>
+			<a href="#frameworks">Frameworks</a>
+			<a href="#a11y">Accessibility</a>
+			<a href="#from-sileo">Coming from Sileo</a>
+			<a href="#credits">Credits</a>
+		</nav>
+
+		<article>
+			<h1 id="start">Getting started</h1>
+			<p class="lead"><strong>sileo-vanilla</strong> is a small, opinionated toast library for any web page. It is a plain-JavaScript port of <a href="https://github.com/hiaaryan/sileo">Sileo</a>: the same gooey SVG morph and spring physics, without React or any other dependency. It works in plain HTML, Vue, Svelte, Angular, Frappe, server-rendered pages, anything with a DOM.</p>
+
+			<h2 id="install">Installation</h2>
+			<h3>With npm</h3>
+			<div class="copy-wrap"><pre>npm install sileo-vanilla</pre><button class="icon-btn copy" data-copy aria-label="Copy">⧉</button></div>
+			<div class="copy-wrap"><pre>import { toast } from "sileo-vanilla";
+
+toast.success({ title: "Saved" });</pre><button class="icon-btn copy" data-copy aria-label="Copy">⧉</button></div>
+			<p>That's all: there is no component to mount. The styles are added to the page the first time a toast appears.</p>
+
+			<h3>With a script tag (no build step)</h3>
+			<div class="copy-wrap"><pre>&lt;script src="https://cdn.jsdelivr.net/npm/sileo-vanilla@0.1.0/dist/sileo-vanilla.umd.min.js"&gt;&lt;/script&gt;
+&lt;script&gt;
+  SileoVanilla.toast.success({ title: "Saved" });
+&lt;/script&gt;</pre><button class="icon-btn copy" data-copy aria-label="Copy">⧉</button></div>
+
+			<h3>As an ES module from a CDN</h3>
+			<div class="copy-wrap"><pre>&lt;script type="module"&gt;
+  import { toast } from "https://cdn.jsdelivr.net/npm/sileo-vanilla@0.1.0/+esm";
+  toast.info({ title: "Hello" });
+&lt;/script&gt;</pre><button class="icon-btn copy" data-copy aria-label="Copy">⧉</button></div>
+
+			<h2 id="fire">Fire a toast</h2>
+			<p>Each state has its own colour and icon. A toast shows its <strong>title</strong> in a pill, then unfolds to show the <strong>description</strong>.</p>
+			<div class="example">
+				<div class="tabs"><button class="on" data-tab="preview">Preview</button><button data-tab="code">Code</button></div>
+				<div class="pane">
+					<button class="chip" data-demo="success">Success</button>
+					<button class="chip" data-demo="error">Error</button>
+					<button class="chip" data-demo="warning">Warning</button>
+					<button class="chip" data-demo="info">Info</button>
+				</div>
+				<pre hidden>toast.success({ title: "Changes saved", description: "Your changes were saved to the database." });
+toast.error({ title: "Something went wrong", description: "We could not save your changes. Try again in a moment." });
+toast.warning({ title: "Storage almost full", description: "You have used 95% of your storage." });
+toast.info({ title: "New version", description: "Reload the page to get the latest features." });</pre>
+			</div>
+
+			<h2 id="action">Action toast</h2>
+			<p>Add a <code>button</code> to let people act on the toast: undo, view, share…</p>
+			<div class="example">
+				<div class="tabs"><button class="on" data-tab="preview">Preview</button><button data-tab="code">Code</button></div>
+				<div class="pane"><button class="chip" data-demo="action">Try it</button></div>
+				<pre hidden>toast.action({
+  title: "File uploaded",
+  description: "Your file has been uploaded. Share it with your team?",
+  button: { title: "Share now", onClick: () =&gt; share() },
+});</pre>
+			</div>
+
+			<h2 id="promise">Promise toast</h2>
+			<p>One toast for a slow task: it shows <strong>loading</strong> while the promise runs, then morphs into success or error. <code>toast.promise</code> returns the original promise, so you can keep chaining.</p>
+			<div class="example">
+				<div class="tabs"><button class="on" data-tab="preview">Preview</button><button data-tab="code">Code</button></div>
+				<div class="pane"><button class="chip" data-demo="promiseOk">Resolves</button><button class="chip" data-demo="promiseFail">Rejects</button></div>
+				<pre hidden>toast.promise(saveSettings(), {
+  loading: { title: "Saving" },
+  success: (result) =&gt; ({ title: "Saved", description: `${result.count} settings updated.` }),
+  error: (err) =&gt; ({ title: "Not saved", description: err.message }),
+});</pre>
+			</div>
+			<p>Pass <code>action</code> instead of <code>success</code> to end on an action toast (with a button).</p>
+
+			<h2 id="positions">Positions</h2>
+			<p>Six positions. Set a default with <code>configure</code>, or choose per toast. Toasts at the top unfold downward, toasts at the bottom unfold upward.</p>
+			<div class="example">
+				<div class="tabs"><button class="on" data-tab="preview">Preview</button><button data-tab="code">Code</button></div>
+				<div class="pane">
+					<button class="chip" data-demo="pos" data-pos="top-left">top-left</button>
+					<button class="chip" data-demo="pos" data-pos="top-center">top-center</button>
+					<button class="chip" data-demo="pos" data-pos="top-right">top-right</button>
+					<button class="chip" data-demo="pos" data-pos="bottom-left">bottom-left</button>
+					<button class="chip" data-demo="pos" data-pos="bottom-center">bottom-center</button>
+					<button class="chip" data-demo="pos" data-pos="bottom-right">bottom-right</button>
+				</div>
+				<pre hidden>import { configure, toast } from "sileo-vanilla";
+
+configure({ position: "bottom-center" });          // default for every toast
+toast.success({ title: "Saved", position: "top-left" }); // or one toast only</pre>
+			</div>
+
+			<h2 id="api-toast">toast</h2>
+			<p>Every method returns the toast's id.</p>
+			<table>
+				<tr><th>Method</th><th>What it does</th></tr>
+				<tr><td><code>toast.success(options)</code></td><td>Green check.</td></tr>
+				<tr><td><code>toast.error(options)</code></td><td>Red cross. Announced at once to screen readers.</td></tr>
+				<tr><td><code>toast.warning(options)</code></td><td>Amber circle.</td></tr>
+				<tr><td><code>toast.info(options)</code></td><td>Blue life buoy.</td></tr>
+				<tr><td><code>toast.action(options)</code></td><td>Blue arrow, usually with a <code>button</code>.</td></tr>
+				<tr><td><code>toast.show({ type, ...options })</code></td><td>Any state from a variable.</td></tr>
+				<tr><td><code>toast.promise(promise, { loading, success, error, action })</code></td><td>Loading, then the result. Returns the promise.</td></tr>
+				<tr><td><code>toast.dismiss(id?)</code></td><td>Closes a toast (the default one without an id).</td></tr>
+				<tr><td><code>toast.clear(position?)</code></td><td>Removes every toast at once, or those at one position.</td></tr>
+			</table>
+			<p><code>sileo</code> is exported too, as the same object, so code written for Sileo reads the same.</p>
+
+			<h2 id="api-options">Toast options</h2>
+			<table>
+				<tr><th>Option</th><th>Type</th><th>Default</th><th>Description</th></tr>
+				<tr><td><code>title</code></td><td>text, node, <code>{html}</code></td><td>state name</td><td>Shown in the pill.</td></tr>
+				<tr><td><code>description</code></td><td>text, node, <code>{html}</code></td><td>none</td><td>Unfolds below the pill.</td></tr>
+				<tr><td><code>button</code></td><td><code>{ title, onClick }</code></td><td>none</td><td>Action button in the card.</td></tr>
+				<tr><td><code>duration</code></td><td>ms or <code>null</code></td><td><code>6000</code></td><td><code>null</code> keeps it until dismissed.</td></tr>
+				<tr><td><code>position</code></td><td>position</td><td>toaster's</td><td>One of the six positions.</td></tr>
+				<tr><td><code>id</code></td><td>string</td><td><code>"sileo-default"</code></td><td>Same id = replace with a morph. See <a href="#ids">Ids</a>.</td></tr>
+				<tr><td><code>icon</code></td><td>SVG string or node</td><td>state icon</td><td>Your own badge icon.</td></tr>
+				<tr><td><code>fill</code></td><td>colour</td><td>from theme</td><td>Toast colour.</td></tr>
+				<tr><td><code>roundness</code></td><td>px</td><td><code>16</code></td><td>Corner radius.</td></tr>
+				<tr><td><code>autopilot</code></td><td><code>false</code> or <code>{expand, collapse}</code></td><td>150 / 4000 ms</td><td>When it unfolds and folds by itself.</td></tr>
+				<tr><td><code>className</code></td><td>string</td><td>none</td><td>Class on the toast element.</td></tr>
+				<tr><td><code>styles</code></td><td><code>{title, description, badge, button}</code></td><td>none</td><td>Classes for each part.</td></tr>
+				<tr><td><code>onDismiss</code></td><td><code>(id) =&gt; void</code></td><td>none</td><td>Called once it has left.</td></tr>
+			</table>
+
+			<h2 id="api-configure">configure</h2>
+			<p>Toaster-wide settings. Call it once at start-up (or any time: open toasts follow).</p>
+			<pre>import { configure } from "sileo-vanilla";
+
+configure({
+  position: "top-right",          // default position
+  offset: 24,                     // px, a CSS length, or { top, right, bottom, left }
+  theme: "system",                // "light" | "dark" | "system"
+  options: { roundness: 14 },     // defaults for every toast
+  injectStyles: true,             // false: link "sileo-vanilla/styles.css" yourself
+});</pre>
+
+			<h2 id="styling">Styling</h2>
+			<p>Change the colour with <code>fill</code>, and add your own classes with <code>className</code> and <code>styles</code>. Every part also has a data attribute you can target in CSS.</p>
+			<div class="example">
+				<div class="tabs"><button class="on" data-tab="preview">Preview</button><button data-tab="code">Code</button></div>
+				<div class="pane"><button class="chip" data-demo="fill">Custom fill</button><button class="chip" data-demo="styled">Custom classes</button></div>
+				<pre hidden>toast.warning({ title: "Low battery", description: "Plug the scanner in soon.", fill: "#2b2118" });
+
+toast.success({
+  title: "Published",
+  styles: { title: "my-title", description: "my-text", button: "my-button" },
+});</pre>
+			</div>
+			<p>Useful selectors and variables:</p>
+			<pre>[data-sileo-toast]          /* the toast */
+[data-sileo-title]          /* the title in the pill */
+[data-sileo-description]    /* the unfolded text */
+[data-sileo-button]         /* the action button */
+[data-sileo-badge]          /* the round icon */
+
+:root {
+  --sileo-width: 350px;
+  --sileo-duration: 600ms;
+  --sileo-state-success: oklch(0.723 0.219 142.136);
+  --sileo-state-error: oklch(0.637 0.237 25.331);
+  /* also: loading, warning, info, action */
+}
+
+/* Titles are capitalised like Sileo ("Changes Saved"). For languages
+   that don't capitalise every word (French, Spanish…): */
+[data-sileo-title] { text-transform: none; }</pre>
+			<p class="note">The toast shape is drawn in SVG, so <code>--sileo-width</code> only changes the box, not the drawing (fixed at 350 px, as in Sileo).</p>
+
+			<h2 id="rich">Rich content</h2>
+			<p>The title and description take plain text, a DOM node, or <code>{ html }</code>. Use any layout: avatars, images, lists, your own components.</p>
+			<div class="example">
+				<div class="tabs"><button class="on" data-tab="preview">Preview</button><button data-tab="code">Code</button></div>
+				<div class="pane"><button class="chip" data-demo="rich">Rich content</button></div>
+				<pre hidden>toast.info({
+  title: "Team update",
+  description: {
+    html: `&lt;div class="who"&gt;
+      &lt;span class="faces"&gt;&lt;i&gt;AL&lt;/i&gt;&lt;i&gt;BO&lt;/i&gt;&lt;i&gt;CH&lt;/i&gt;&lt;/span&gt;
+      &lt;span&gt;Alice, Bob and Charlie joined the design team.&lt;/span&gt;
+    &lt;/div&gt;`,
+  },
+});</pre>
+			</div>
+			<p class="note">Text is always shown as text, never parsed as HTML. Only use <code>{ html }</code> with markup you wrote yourself, never with what users typed.</p>
+
+			<h2 id="roundness">Roundness</h2>
+			<p>Control the corner radius with <code>roundness</code> (default <code>16</code>). Lower for sharper corners, higher for a rounder pill.</p>
+			<div class="example">
+				<div class="tabs"><button class="on" data-tab="preview">Preview</button><button data-tab="code">Code</button></div>
+				<div class="pane"><button class="chip" data-demo="sharp">Sharp (12)</button><button class="chip" data-demo="round">Round (16)</button><button class="chip" data-demo="rounder">Rounder (20)</button></div>
+				<pre hidden>toast.success({ title: "Sharp corners", roundness: 12 });</pre>
+			</div>
+			<p class="note">Performance: higher roundness values increase the SVG blur used for the gooey effect, which costs more to draw. 16 is a good balance between looks and speed.</p>
+
+			<h2 id="themes">Themes</h2>
+			<p><code>"light"</code> (default) gives dark toasts for light pages, <code>"dark"</code> gives light toasts for dark pages, <code>"system"</code> follows the visitor's setting and switches live. The theme button at the top of this page uses it.</p>
+			<div class="example">
+				<div class="tabs"><button class="on" data-tab="preview">Preview</button><button data-tab="code">Code</button></div>
+				<div class="pane"><button class="chip" data-demo="themeLight">Light</button><button class="chip" data-demo="themeDark">Dark</button></div>
+				<pre hidden>configure({ theme: "dark" });</pre>
+			</div>
+
+			<h2 id="timing">Timing and autopilot</h2>
+			<p>A toast stays <strong>6 s</strong>. It unfolds after 150 ms and folds back 2 s before leaving. Hovering any toast pauses every countdown and keeps it open; swiping it up or down closes it.</p>
+			<div class="example">
+				<div class="tabs"><button class="on" data-tab="preview">Preview</button><button data-tab="code">Code</button></div>
+				<div class="pane"><button class="chip" data-demo="long">Stays 12 s</button><button class="chip" data-demo="sticky">Until closed</button><button class="chip" data-demo="noAuto">Unfold on hover only</button></div>
+				<pre hidden>toast.info({ title: "Long", description: "…", duration: 12000 });
+
+const id = toast.warning({ title: "Offline", description: "Reconnecting…", duration: null });
+// later
+toast.dismiss(id);
+
+toast.info({ title: "Hover me", description: "…", autopilot: false });
+toast.info({ title: "Custom", description: "…", autopilot: { expand: 500, collapse: 3000 } });</pre>
+			</div>
+
+			<h2 id="ids">Ids and updates</h2>
+			<p>Like Sileo, toasts without an id share one: a new toast <strong>morphs</strong> the current one instead of piling up. Give ids to show several at once, or to update one toast later.</p>
+			<div class="example">
+				<div class="tabs"><button class="on" data-tab="preview">Preview</button><button data-tab="code">Code</button></div>
+				<div class="pane"><button class="chip" data-demo="stack">Two at once</button><button class="chip" data-demo="update">Update in place</button></div>
+				<pre hidden>toast.success({ id: "upload", title: "Uploaded" });
+toast.info({ id: "sync", title: "Syncing" });
+
+// update the same toast
+toast.info({ id: "job", title: "Step 1 of 2", duration: null });
+toast.success({ id: "job", title: "Done" });</pre>
+			</div>
+
+			<h2 id="frameworks">Frameworks</h2>
+			<p>It's one function call, so it works the same everywhere. Import it where you need it.</p>
+			<h3>Vue</h3>
+			<pre>&lt;script setup&gt;
+import { toast } from "sileo-vanilla";
+const save = () =&gt; toast.promise(api.save(), { loading: { title: "Saving" }, success: { title: "Saved" } });
+&lt;/script&gt;
+
+&lt;template&gt;&lt;button @click="save"&gt;Save&lt;/button&gt;&lt;/template&gt;</pre>
+			<h3>Svelte</h3>
+			<pre>&lt;script&gt;
+  import { toast } from "sileo-vanilla";
+&lt;/script&gt;
+
+&lt;button on:click={() =&gt; toast.success({ title: "Saved" })}&gt;Save&lt;/button&gt;</pre>
+			<h3>Angular</h3>
+			<pre>import { toast } from "sileo-vanilla";
+
+@Component({ selector: "app-save", template: `&lt;button (click)="save()"&gt;Save&lt;/button&gt;` })
+export class SaveComponent {
+  save() { toast.success({ title: "Saved" }); }
+}</pre>
+			<h3>Frappe / ERPNext</h3>
+			<pre>// in your app's bundle (e.g. public/js/myapp.bundle.js)
+import { toast, configure } from "sileo-vanilla";
+configure({ theme: "system" });
+frappe.toast = toast;
+
+// anywhere in the desk
+frappe.toast.success({ title: __("Saved") });</pre>
+			<h3>Server-rendered pages (SSR)</h3>
+			<p>Importing on the server is safe: nothing touches the DOM until a toast is fired in the browser.</p>
+
+			<h2 id="a11y">Accessibility</h2>
+			<ul>
+				<li>Each position is an <code>aria-live="polite"</code> region; errors use <code>role="alert"</code> so they are announced at once.</li>
+				<li>Icons are hidden from screen readers; the title carries the meaning.</li>
+				<li>With "reduce motion" turned on, the toasts appear and change without animation.</li>
+				<li>The action button can be reached with the keyboard and shows a focus ring.</li>
+			</ul>
+
+			<h2 id="from-sileo">Coming from Sileo</h2>
+			<table>
+				<tr><th>Sileo (React)</th><th>sileo-vanilla</th></tr>
+				<tr><td><code>import { sileo, Toaster } from "sileo"</code></td><td><code>import { sileo, configure } from "sileo-vanilla"</code></td></tr>
+				<tr><td><code>&lt;Toaster position="top-right" /&gt;</code></td><td><code>configure({ position: "top-right" })</code> (optional)</td></tr>
+				<tr><td><code>&lt;Toaster theme="dark" offset={24} /&gt;</code></td><td><code>configure({ theme: "dark", offset: 24 })</code></td></tr>
+				<tr><td><code>description: &lt;Avatars /&gt;</code></td><td><code>description: node</code> or <code>{ html }</code></td></tr>
+				<tr><td><code>sileo.success / error / … / promise / dismiss / clear</code></td><td>Same names, same options.</td></tr>
+			</table>
+
+			<h2 id="credits">Credits</h2>
+			<p>sileo-vanilla is made by <strong>Ouaklim Othmane</strong>. Its design, shapes and motion come from <a href="https://github.com/hiaaryan/sileo">Sileo</a> by Aaryan (<a href="https://sileo.aaryan.design">sileo.aaryan.design</a>), and its stylesheet is based on Sileo's. Both are MIT licensed. If you use React, use Sileo itself.</p>
+		</article>
+	</div>
+
+	<footer><span>sileo-vanilla · MIT · by Ouaklim Othmane · port of <a href="https://github.com/hiaaryan/sileo">Sileo</a> by Aaryan</span><a href="play.html">Playground →</a></footer>
+
+	<script src="lib/sileo-vanilla.umd.js"></script>
+	<script>
+		const { toast, configure } = SileoVanilla;
+		const wait = (ms, ok = true) => new Promise((res, rej) => setTimeout(() => (ok ? res({ count: 3 }) : rej(new Error("The server did not answer."))), ms));
+		const faces = ["AL", "BO", "CH"].map((t, i) => `<i style="background:${["#d9f2e4", "#e8e8e8", "#dcd8f6"][i]}">${t}</i>`).join("");
+		window.demos = {
+			success: () => toast.success({ title: "Changes saved", description: "Your changes were saved to the database." }),
+			error: () => toast.error({ title: "Something went wrong", description: "We could not save your changes. Try again in a moment." }),
+			warning: () => toast.warning({ title: "Storage almost full", description: "You have used 95% of your storage." }),
+			info: () => toast.info({ title: "New version", description: "Reload the page to get the latest features." }),
+			action: () => toast.action({ title: "File uploaded", description: "Your file has been uploaded. Share it with your team?", button: { title: "Share now", onClick: () => toast.success({ title: "Link copied" }) } }),
+			promiseOk: () => toast.promise(wait(1800), { loading: { title: "Saving" }, success: (r) => ({ title: "Saved", description: `${r.count} settings updated.` }), error: (e) => ({ title: "Not saved", description: e.message }) }),
+			promiseFail: () => toast.promise(wait(1800, false), { loading: { title: "Saving" }, success: { title: "Saved" }, error: (e) => ({ title: "Not saved", description: e.message }) }).catch(() => {}),
+			pos: (b) => toast.success({ id: "pos-" + b.dataset.pos, title: "Saved", description: `This toast sits at ${b.dataset.pos}.`, position: b.dataset.pos }),
+			fill: () => toast.warning({ title: "Low battery", description: "Plug the scanner in soon.", fill: "#2b2118" }),
+			styled: () => toast.success({ title: "Published", description: "Titles here use normal case thanks to a class.", styles: { title: "no-caps" } }),
+			rich: () => toast.info({ title: "Team update", description: { html: `<div class="who"><span class="faces">${faces}</span><span>Alice, Bob and Charlie joined the design team.</span></div>` } }),
+			sharp: () => toast.success({ title: "Sharp corners", roundness: 12 }),
+			round: () => toast.success({ title: "Round corners", roundness: 16 }),
+			rounder: () => toast.success({ title: "Rounder corners", roundness: 20 }),
+			themeLight: () => {
+				configure({ theme: "light" });
+				toast.info({ title: "Light theme", description: "Dark toasts, made for light pages." });
+			},
+			themeDark: () => {
+				configure({ theme: "dark" });
+				toast.info({ title: "Dark theme", description: "Light toasts, made for dark pages." });
+			},
+			long: () => toast.info({ title: "Long", description: "This one stays 12 seconds.", duration: 12000 }),
+			sticky: () => {
+				const id = toast.warning({ id: "sticky", title: "Offline", description: "Stays until you close it. Swipe it up or down, or wait: it closes in 8 s for this demo.", duration: null });
+				setTimeout(() => toast.dismiss(id), 8000);
+			},
+			noAuto: () => toast.info({ title: "Hover me", description: "I only unfold when the mouse is over me.", autopilot: false }),
+			stack: () => {
+				toast.success({ id: "upload", title: "Uploaded" });
+				setTimeout(() => toast.info({ id: "sync", title: "Syncing", description: "Two toasts with two ids." }), 300);
+			},
+			update: () => {
+				toast.info({ id: "job", title: "Step 1 of 2", duration: null });
+				setTimeout(() => toast.info({ id: "job", title: "Step 2 of 2", duration: null }), 1200);
+				setTimeout(() => toast.success({ id: "job", title: "Done", description: "The same toast, updated twice." }), 2400);
+			},
+		};
+	</script>
+	<style>.no-caps { text-transform: none !important; }</style>
+	<script src="assets/site.js"></script>
+</body>
+</html>

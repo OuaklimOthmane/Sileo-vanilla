@@ -1,0 +1,62 @@
+{
+  "name": "sileo-vanilla",
+  "version": "0.1.0",
+  "description": "Gooey, physics-based toast notifications for any web page. A framework-free port of Sileo: no React, no dependencies.",
+  "keywords": [
+    "toast",
+    "notification",
+    "toaster",
+    "snackbar",
+    "sileo",
+    "gooey",
+    "spring",
+    "vanilla",
+    "javascript",
+    "no-framework"
+  ],
+  "author": "Ouaklim Othmane",
+  "license": "MIT",
+  "homepage": "https://ouaklimothmane.github.io/Sileo-vanilla/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/OuaklimOthmane/Sileo-vanilla.git"
+  },
+  "bugs": {
+    "url": "https://github.com/OuaklimOthmane/Sileo-vanilla/issues"
+  },
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "unpkg": "./dist/sileo-vanilla.umd.min.js",
+  "jsdelivr": "./dist/sileo-vanilla.umd.min.js",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs",
+      "default": "./dist/index.mjs"
+    },
+    "./styles.css": "./dist/styles.css",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md"
+  ],
+  "sideEffects": [
+    "*.css"
+  ],
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "test": "node scripts/build.mjs && node --test tests/*.test.mjs",
+    "docs": "node scripts/build.mjs && npx --yes serve docs",
+    "prepublishOnly": "npm test"
+  },
+  "devDependencies": {
+    "@happy-dom/global-registrator": "^21.0.4",
+    "esbuild": "^0.28.2"
+  }
+}
