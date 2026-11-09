@@ -299,10 +299,19 @@ export class SaveComponent {
 			<pre>// in your app's bundle (e.g. public/js/myapp.bundle.js)
 import { toast, configure } from "sileo-vanilla";
 configure({ theme: "system" });
-frappe.toast = toast;
+frappe.provide("myapp");
+myapp.toast = toast; // not frappe.toast: Frappe already uses that name for its own alerts
 
 // anywhere in the desk
-frappe.toast.success({ title: __("Saved") });</pre>
+myapp.toast.success({ title: __("Saved") });
+
+// optional: turn Frappe's own alerts (frappe.show_alert) into toasts too
+const colour = { green: "success", orange: "warning", red: "error", blue: "info" };
+frappe.show_alert = (m, seconds = 7) =&gt; {
+  m = typeof m === "string" ? { message: m } : m;
+  toast.show({ type: colour[m.indicator] || "info", title: { html: m.message }, duration: seconds * 1000 });
+  return $("&lt;div&gt;");
+};</pre>
 			<h3>Server-rendered pages (SSR)</h3>
 			<p>Importing on the server is safe: nothing touches the DOM until a toast is fired in the browser.</p>
 
